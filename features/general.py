@@ -1,6 +1,12 @@
+import pyfiglet
+
+def logo():
+    logo = pyfiglet.figlet_format("PokeDB")
+    print(logo)
+
 def help():
-    print("Main menu: ")
-    print("Victor's features: victor_feature1, victor_feature2")
+    print("This is an example help menu!")
+    print("-------------HELP------------\n\n\n\n")
 
 def quit_program():
     print("Goodbye!")
@@ -8,6 +14,7 @@ def quit_program():
 
 __functions__ = {
     "help": help,
+    "logo": logo,
     "quit": quit_program,
     "exit": quit_program
 }

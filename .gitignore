@@ -4,3 +4,5 @@
 .vscode/
 
 pokemonAPIScripts/
+
+__pycache__/
