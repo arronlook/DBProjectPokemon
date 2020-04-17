@@ -3,6 +3,7 @@ import pyfiglet
 def logo():
     logo = pyfiglet.figlet_format("PokeDB")
     print(logo)
+    print("S20 Database System final project\n")
 
 def help():
     print("This is an example help menu!")
