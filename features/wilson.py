@@ -27,6 +27,7 @@ def freezedry(conn):
     # corner case: Freeze-Dry
     # this move is super effective against Water types,
     # which usually resists Ice type moves like this one
+    # 0.5x to 2x is a 4x increase
     query = \
         "SELECT name AS Name, effect AS Effectiveness \
         FROM (\
@@ -34,10 +35,10 @@ def freezedry(conn):
             FROM tbl_pokemon\
 	        WHERE against_ice > 1\
 	    UNION\
-	        SELECT name, (against_ice * 2) AS effect\
+	        SELECT name, (against_ice * 4) AS effect\
 	        FROM tbl_pokemon\
 	        WHERE (type1 = 'water' OR type2 = 'water')\
-		    AND (against_ice * 2) > 1\
+		    AND (against_ice * 4) > 1\
         ) AS freezedry ORDER BY effect DESC, name ASC"
     with conn.cursor() as cursor:
         cursor.execute(query)
