@@ -1,6 +1,6 @@
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
-#from namespaces import all_pokemon
+from database_conn import DB_conn
 import psycopg2
 
 # change this if you don't want to see
@@ -8,8 +8,10 @@ import psycopg2
 debug = False
 
 def wilson_feature1():
+    conn = DB_conn.getConn()
     option = prompt("Select a move to see super-effectiveness>")
-    # need a connection
+    move_query(conn, option)
+    
 
 __functions__ = {
     "super_effective": wilson_feature1,
@@ -115,7 +117,7 @@ def checkType(conn, pokemonType):
         pokemon = cursor.fetchall()
     
     if len(pokemon) == 0:
-        print("No Pokemon are weak to this type")
+        print("No Pokemon are weak to this move")
     else:
         debugSum = 0
         for p in pokemon:
