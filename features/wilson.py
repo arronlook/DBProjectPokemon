@@ -3,15 +3,17 @@ from prompt_toolkit.completion import WordCompleter
 #from namespaces import all_pokemon
 import psycopg2
 
+# change this if you don't want to see
+# all of the printing
+debug = False
+
 def wilson_feature1():
     option = prompt("Select a move to see super-effectiveness>")
-
+    # need a connection
 
 __functions__ = {
     "super_effective": wilson_feature1,
 }
-
-debug = False
 
 def main():
     connection_string = "host='localhost' dbname='pokemon' user='ash' password='ketchum'"
@@ -69,12 +71,13 @@ def flyingpress(conn):
         print("Super effective to " + str(debugSum) + " Pokemon")
 
 def getType(conn, moveName):
-    # minor cleaning
+    # minor cleaning of SQL injection
     if moveName.find(";") > -1:
         move = moveName[0 : moveName.find(";")].lower()
     else:
         move = moveName.lower()
     
+    # not case-sensitive search
     query = "SELECT type, category \
             FROM tbl_allMoves \
             WHERE lower(name) LIKE '%s'" % (move)
@@ -82,6 +85,9 @@ def getType(conn, moveName):
         cursor.execute(query)
         moveType = cursor.fetchall()
     
+    # if 0, no matching moves
+    # if >1, too many moves returned
+    # should only return 1 move
     if len(moveType) != 1:
         print("No valid move specified or type received")
         return None
@@ -93,7 +99,7 @@ def getType(conn, moveName):
             #print(moveType[0][0])
             return moveType[0][0]
 
-def testType(conn, pokemonType):
+def checkType(conn, pokemonType):
     pokeType = pokemonType.lower()
     # fighting resistance is denoted with against_fight, 
     # not against_fighting: minor check
@@ -135,21 +141,19 @@ def move_query(conn, moveName):
         flyingpress(conn)
     # any other move is valid
     else:
-        testType(conn, moveType)
+        checkType(conn, moveType)
 
 if __name__ == "__main__":
-    # change this for quicker debugging purposes
-    debug = False
-
     conn = main()
     #freezedry(conn)
     #flyingpress(conn)
-    #testType(conn, "Poison")
+    #checkType(conn, "Poison")
     #getType(conn, "")
     #move_query(conn, "tackle")
     moveList = ["Tackle", "Flying Press", "toxic", "Nuzzle", \
                 "freEzE-dRY", "; DROP TABLE tbl_pokemon; COMMIT;", \
-                "instant kill", "thousand ARROWS"]
+                "instant kill", "thousand ARROWS", "shIFt gEaR", \
+                "geAR gRInD"]
     print("Starting Tests")
     for i in range(len(moveList)):
         print("========================================")
