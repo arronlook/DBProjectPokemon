@@ -1,7 +1,7 @@
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 from database_conn import DB_conn
-import psycopg2
+from namespaces import all_moves
 
 # change this if you don't want to see
 # all of the printing
@@ -9,7 +9,8 @@ debug = False
 
 def wilson_feature1():
     conn = DB_conn.getConn()
-    option = prompt("Select a move to see super-effectiveness>")
+    moves_completer = WordCompleter(all_moves, ignore_case=True)
+    option = prompt("Select a move to see super-effectiveness>", completer=moves_completer)
     move_query(conn, option)
     
 

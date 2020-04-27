@@ -11,7 +11,7 @@ def victor_feature1():
 def victor_feature2():
     connection = DB_conn.getConn()
     cursor = connection.cursor()
-    query = "SELECT * FROM tbl_pokemon"
+    query = "SELECT name FROM tbl_pokemon"
     with cursor as cursor:
         cursor.execute(query)
         print(cursor.fetchall())
