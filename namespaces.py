@@ -284,7 +284,7 @@ some_moves = [
     'Follow Me',
     'Force Palm',
     'Foresight',
-    'Forest\'s Curse',
+    "Forest\'s Curse",
     'Foul Play',
     'Freeze Shock',
     'Freeze-Dry',
