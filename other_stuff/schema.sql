@@ -1,7 +1,7 @@
 DROP SCHEMA IF EXISTS pokemon;
 CREATE SCHEMA pokemon AUTHORIZATION ash;
 
-CREATE TABLE tbl_allmoves(
+CREATE TABLE tbl_allmoves (
     move_id                 SMALLINT      UNIQUE,
     name                    VARCHAR(29)   PRIMARY KEY,
     type                    VARCHAR(8),
@@ -15,7 +15,7 @@ CREATE TABLE tbl_allmoves(
     gen                     SMALLINT
 );
 
-CREATE TABLE tbl_pokemon(
+CREATE TABLE tbl_pokemon (
     against_bug       REAL,
     against_dark      REAL,
     against_dragon    REAL,
@@ -57,3 +57,21 @@ CREATE TABLE tbl_pokemon(
     generation        SMALLINT,
     is_legendary      BOOLEAN
 );
+
+/*
+tbl_allmoves
+---------
+- power set '-' to NULL
+- acc set '-' to NULL, Γê₧ to 1000
+- pp set '-' to NULL
+- tm set '' to NULL
+- prob set '' and '-' to NULL, and it maps to prob_second_effect
+
+tbl_pokemon
+---------
+- remove attributes (abilities, base_total)
+- height_m set '' to 0 or something. geodude's height is 0?
+- weight_kg set '' to NULL
+- for pokemon name 'minor', there are 2 values for capture_rate. I suggest we separate them into 2 different pokemon, one for meteorite and one for core, since it's the same pokemon in different forms. Or just remove capture_rate
+- NOTE that classfication is misspelled in the csv file. should be classification
+*/
