@@ -4,7 +4,7 @@ from namespaces import all_types, all_stats
 from database_conn import DB_conn
 
 def victor_feature1():
-
+    print("Given the type(s) and stat(s), the analyzer will rank Pokemon ordered by the sum of the given stats")
     while True:
         # This while-loop sanitizes input for type
         type_completer = WordCompleter(all_types, ignore_case=True)
@@ -69,14 +69,14 @@ def victor_feature1():
         res = cursor.fetchall()
     
     print("Here are your results:")
-    print("-------------------------")
-    print("|  Pokemon  |   Total   |")
-    print("-------------------------")
+    print("--------------------------")
+    print("|   Pokemon   |   Total   |")
+    print("--------------------------")
     for entry in res:
-        print("|{:<10} | {:^10}|".format(entry[0], entry[1]))
+        print("|{:<12} | {:^10}|".format(entry[0], entry[1]))
     if len(res) == 0:
-        print("|       No Results      |")
-    print("-------------------------")
+        print("|        No Results       |")
+    print("--------------------------")
     
          
 
