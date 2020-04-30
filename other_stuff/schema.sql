@@ -1,6 +1,3 @@
-DROP SCHEMA IF EXISTS pokemon;
-CREATE SCHEMA pokemon AUTHORIZATION ash;
-
 CREATE TABLE tbl_allmoves (
     move_id                 SMALLINT      UNIQUE,
     name                    VARCHAR(29)   PRIMARY KEY,
