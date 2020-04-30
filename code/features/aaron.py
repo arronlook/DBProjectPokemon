@@ -1,4 +1,4 @@
-from database_conn import DB_conn
+from database import DB_conn
 
 def aaron_feature1():
     """
