@@ -63,7 +63,6 @@ def victor_feature1():
     cursor = connection.cursor()
     with cursor as cursor:
         if num_types == 1:
-            print(query)
             cursor.execute(query, (input_types_arr[0], ))
         else:
             cursor.execute(query, (input_types_arr[0], input_types_arr[1],))
