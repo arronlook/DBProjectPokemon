@@ -1,12 +1,8 @@
 import psycopg2
+from database import DB_conn
 
 if __name__ == "__main__":
-    t_host = "localhost" # PostgreSQL database host address,either "localhost", a domain name, or an IP address.
-    t_port = "5432" # default postgres port
-    t_dbname = "pokemon" #database name
-    t_user = "ash" #database user name
-    t_pw = "ketchum" #password
-    db_conn = psycopg2.connect(host=t_host, port=t_port, dbname=t_dbname, user=t_user, password=t_pw)
+    db_conn = DB_conn.getConn()
     db_cursor = db_conn.cursor()
 
     db_cursor.execute("DROP TABLE IF EXISTS tbl_allMoves")

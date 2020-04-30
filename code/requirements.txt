@@ -1,0 +1,4 @@
+click=7.1.1
+prompt-toolkit=3.0.5
+pyfiglet=0.8.post1
+psycopg2-binary=2.8.5
