@@ -24,3 +24,33 @@ with cursor as cursor:
     res = cursor.fetchall()
     for r in res:
         all_moves.append(r[0])
+
+all_types = [
+    "normal",
+    "water",
+    "electric",
+    "fighting",
+    "ground",
+    "psychic",
+    "rock",
+    "dark",
+    "steel",
+    "fire",
+    "grass",
+    "ice",
+    "poison",
+    "flying",
+    "bug",
+    "ghost",
+    "dragon",
+    "fairy"
+]
+
+all_stats = [
+    "hp",
+    "attack",
+    "sp_attack",
+    "defense",
+    "sp_defense",
+    "speed"
+]
