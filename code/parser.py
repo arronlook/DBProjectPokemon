@@ -1,6 +1,6 @@
 import csv
 
-def check(elem):
+def check1(elem):
 	if len(elem)!=0:
 		if ',' in elem:
 			elem = elem.replace(',','\\,')
@@ -22,7 +22,7 @@ with open('datasets/All_Moves.csv') as f:
     for row in f_csv:
     	temp=[]
     	for col in row:
-    		(flag,col)=check(col)
+    		(flag,col)=check1(col)
     		if(flag==1):
     			print(col)
     		temp.append(col)
