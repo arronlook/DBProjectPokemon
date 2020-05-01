@@ -163,6 +163,7 @@ def parse2():
 							if check_duplicate(temp,rows)==False:
 								writer3.writerow(temp)
 								rows.append(temp)
+						continue
 	print("pokemon_moves_parsed.csv created")
 
 if __name__ == "__main__":
