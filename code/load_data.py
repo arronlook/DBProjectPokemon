@@ -1,7 +1,29 @@
 import psycopg2
 from database import DB_conn
 import csv
+import os
 
+def findFile(fname):
+    """
+    Searches for file path recursively from ../
+    @param fname is the filename to search for
+    @returns (root, path to fname)
+    """
+    path = os.getcwd()
+    breadCrumbs = fname.split("/")
+    fname = breadCrumbs[-1]
+    breadCrumbs[:-1]
+    # To traverse potential crumbs provided
+    for crumb in breadCrumbs:
+        for root, dirs, files in os.walk(path):
+            if crumb in dirs:
+                path = os.path.join(root, crumb)
+                break
+    # To find the actual path    
+    for root, dirs, files in os.walk(path):
+        if fname in files:
+            return (root, os.path.join(root, fname))
+    raise FileNotFoundError("Could not find {}".format(fname))
 
 def check1(elem):
     if len(elem)!=0:
@@ -17,9 +39,10 @@ def check1(elem):
     return (0,elem)
 
 def parse1():
-    writer = csv.writer(open('datasets/Allmoves_parsed.csv', 'w', newline=''))
+    root, f_loc = findFile('datasets/Allmoves_parsed.csv')
+    writer = csv.writer(open(f_loc, 'w', newline=''))
     rows=[]
-    with open('datasets/All_moves.csv') as f:
+    with open(os.path.join(root, 'All_moves.csv')) as f:
         f_csv = csv.reader(f)
         headers = next(f_csv)
         # print(headers)
@@ -58,10 +81,11 @@ def check_duplicate(r, all_rows):
     return False
 
 def parse2():
-    writer = csv.writer(open('datasets/pokemon_parsed_temp.csv', 'w', encoding="utf-8", newline=''))
+    root, f_loc = findFile('datasets/pokemon.csv')
+    writer = csv.writer(open(os.path.join(root, 'pokemon_parsed_temp.csv'), 'w', encoding="utf-8", newline=''))
     rows=[]
 
-    with open('datasets/pokemon.csv', encoding="utf-8") as f:
+    with open(f_loc, encoding="utf-8") as f:
         f_csv = csv.reader(f)
         headers = next(f_csv)
         # print(headers)
@@ -85,9 +109,9 @@ def parse2():
     cols_to_remove2 = [0,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,38,39,40] # Column indexes to be removed (starts at 0)
     cols_to_remove2 = sorted(cols_to_remove2, reverse=True) # Reverse so we remove from the end first
 
-    with open('datasets/pokemon_parsed_temp.csv', "r", encoding="utf-8") as source:
+    with open(os.path.join(root, 'pokemon_parsed_temp.csv'), "r", encoding="utf-8") as source:
         reader = csv.reader(source)
-        with open('datasets/pokemon_parsed_main.csv', "w", encoding="utf-8", newline='') as result:
+        with open(os.path.join(root, 'pokemon_parsed_main.csv'), "w", encoding="utf-8", newline='') as result:
             writer = csv.writer(result)
             for row in reader:
                 if len(row) == 0:
@@ -99,9 +123,9 @@ def parse2():
                 writer.writerow(row)
                 # print(len(row))
     rows=[]
-    with open('datasets/pokemon_parsed_temp.csv', "r", encoding="utf-8") as source2:
+    with open(os.path.join(root, 'pokemon_parsed_temp.csv'), "r", encoding="utf-8") as source2:
         reader2 = csv.reader(source2)
-        with open('datasets/pokemon_parsed_weakness.csv', "w", encoding="utf-8", newline='') as result:
+        with open(os.path.join(root, 'pokemon_parsed_weakness.csv'), "w", encoding="utf-8", newline='') as result:
             writer2 = csv.writer(result)
             for row in reader2:
                 if len(row) == 0:
@@ -124,21 +148,21 @@ if __name__ == "__main__":
     db_conn = DB_conn.getConn()
     db_cursor = db_conn.cursor()
 
-    db_cursor.execute(open("schema.sql", "r").read())
+    db_cursor.execute(open(findFile("schema.sql")[1], "r").read())
 
     # db_cursor.execute("DROP TABLE IF EXISTS tbl_allMoves")
     # db_cursor.execute("CREATE TABLE tbl_allMoves(Name VARCHAR(256) PRIMARY KEY, Type VARCHAR(255),Category VARCHAR(255), Effect VARCHAR(255), Power VARCHAR(255),Acc VARCHAR(255),PP VARCHAR(255),TM VARCHAR(255),Prob VARCHAR(255),Gen INT)" )
-    f_contents = open('datasets/Allmoves_parsed.csv', 'r')
+    f_contents = open(findFile('datasets/Allmoves_parsed.csv')[1], 'r')
     db_cursor.copy_from(f_contents, "tbl_allMoves",columns=('Name', 'Type','Category', 'Effect' , 'Power','Acc', 'PP', 'TM', 'prob_second_effect','Gen'), sep=",",null="")
     db_conn.commit()
 
-    f_contents = open('datasets/pokemon_parsed_weakness.csv', mode='r', encoding='utf-8')
+    f_contents = open(findFile('datasets/pokemon_parsed_weakness.csv')[1], mode='r', encoding='utf-8')
     db_cursor.copy_from(f_contents, "tbl_weakness",columns=('against_bug','against_dark','against_dragon','against_electric','against_fairy','against_fight','against_fire','against_flying','against_ghost','against_grass','against_ground','against_ice','against_normal','against_poison','against_psychic','against_rock','against_steel','against_water','type1','type2'), sep=",",null="")
     db_conn.commit()
 
     # db_cursor.execute("DROP TABLE IF EXISTS tbl_pokemon")
     # db_cursor.execute("CREATE TABLE tbl_pokemon(abilities VARCHAR(256), against_bug real,against_dark real,against_dragon real,against_electric real,against_fairy real,against_fight real,against_fire real,against_flying real,against_ghost real,against_grass real,against_ground real,against_ice real,against_normal real,against_poison real,against_psychic real,against_rock real,against_steel real,against_water real,attack INT,base_egg_steps INT,base_happiness INT,base_total INT,capture_rate VARCHAR(255),classfication VARCHAR(255),defense INT,experience_growth INT,height_m VARCHAR(256),hp INT,japanese_name VARCHAR(255),name VARCHAR(255) PRIMARY KEY,percentage_male VARCHAR(256),pokedex_number INT,sp_attack INT,sp_defense INT,speed INT,type1 VARCHAR(255),type2 VARCHAR(255),weight_kg VARCHAR(256),generation INT,is_legendary INT)" )
-    f_contents = open('datasets/pokemon_parsed_main.csv', mode='r', encoding='utf-8')
+    f_contents = open(findFile('datasets/pokemon_parsed_main.csv')[1], mode='r', encoding='utf-8')
     db_cursor.copy_from(f_contents, "tbl_pokemon",columns=('attack','classification','defense','experience_growth','height_m','hp','japanese_name','name','percentage_male','pokedex_number','sp_attack','sp_defense','speed','type1','type2','weight_kg','generation','is_legendary'), sep=",",null="")
     db_conn.commit()
 
