@@ -1,4 +1,6 @@
 import csv
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
 
 def check2(elem):
 	if len(elem)!=0:
@@ -10,7 +12,7 @@ def check2(elem):
 		# print(elem)
 		return (1,None)
 	if (elem=='30 (Meteorite)255 (Core)'):
-		print(elem)
+		# print(elem)
 		return (1,30)
 	return (0,elem)
 
@@ -24,6 +26,21 @@ def check_duplicate(r, all_rows):
 			return True
 	return False
 
+def normalize(name):
+	if('-' in name):
+		name= name.replace('-',' ')
+	return name.lower()
+
+def check_moves(name):
+	with open('datasets/Allmoves_parsed.csv', "r", encoding='utf-8') as source:
+		reader = csv.reader(source)
+		for row in reader:
+			name1=normalize(row[0])
+			name2=normalize(name)
+			if(fuzz.ratio(name1, name2)>94):
+				print(name1,name2)
+				return (1, name1)
+		return(0,name2)
 
 
 writer = csv.writer(open('datasets/pokemon_parsed_temp.csv', 'w', encoding='utf-8'))
@@ -81,7 +98,44 @@ with open('datasets/pokemon_parsed_temp.csv', "r", encoding='utf-8') as source2:
 			if check_duplicate(row,rows)==False:
 				writer2.writerow(row)
 				rows.append(row)
-	print(len(rows))
+	# print(len(rows))
+
+
+pokemonid_moveid=[]
+with open('datasets/pokemon_moves.csv', "r", encoding='utf-8') as source3:
+	reader3 = csv.reader(source3)
+	firstline = True
+	for row in reader3:
+		if firstline:    #skip first line
+			firstline = False
+			continue
+		if (row[1]=='18' and row[3]=='1'):
+			# print(row)
+			temp=[]
+			temp.append(row[0])
+			temp.append(row[2])	
+			pokemonid_moveid.append(temp)
+
+with open('datasets/moves.csv', "r", encoding='utf-8') as source4:
+	reader4 = csv.reader(source4)
+	firstline = True
+	with open('datasets/pokemon_moves_parsed.csv', "w", encoding='utf-8', newline='') as result:
+		writer3 = csv.writer(result)
+		for row in reader4:
+			if firstline:    #skip first line
+				firstline = False
+				continue
+			for pid,mid in pokemonid_moveid:
+				if row[0]==mid:
+					# print(pid,row[0],row[1])
+					(flag, name)=check_moves(row[1])
+					if (flag==1):
+						temp=[]
+						temp.append(pid)
+						temp.append(name)
+						print(temp)
+						writer3.writerow(temp)
+
 
 
 
