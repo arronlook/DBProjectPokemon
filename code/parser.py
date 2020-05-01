@@ -6,11 +6,16 @@ def check(elem):
 			elem = elem.replace(',','\\,')
 			# print(elem)
 			return (1,elem)
+	if (elem=='-'):
+		print(elem)
+		return (1,None)
+	if (elem=='∞'):
+		return (1,999)
 	return (0,elem)
 
-writer = csv.writer(open('AllMoves_parsed.csv', 'w'))
+writer = csv.writer(open('datasets/AllMoves_parsed.csv', 'w'))
 rows=[]
-with open('AllMoves.csv') as f:
+with open('datasets/AllMoves.csv') as f:
     f_csv = csv.reader(f)
     headers = next(f_csv)
     print(headers)
