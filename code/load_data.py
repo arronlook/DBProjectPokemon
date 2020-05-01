@@ -12,12 +12,12 @@ def check1(elem):
     if (elem=='-'):
         # print(elem)
         return (1,None)
-    if (elem=='∞'):
+    if (elem=='∞' or elem=='âˆž'):
         return (1,999)
     return (0,elem)
 
 def parse1():
-    writer = csv.writer(open('datasets/Allmoves_parsed.csv', 'w'))
+    writer = csv.writer(open('datasets/Allmoves_parsed.csv', 'w', newline=''))
     rows=[]
     with open('datasets/All_moves.csv') as f:
         f_csv = csv.reader(f)
@@ -58,7 +58,7 @@ def check_duplicate(r, all_rows):
     return False
 
 def parse2():
-    writer = csv.writer(open('datasets/pokemon_parsed_temp.csv', 'w', encoding="utf-8"))
+    writer = csv.writer(open('datasets/pokemon_parsed_temp.csv', 'w', encoding="utf-8", newline=''))
     rows=[]
 
     with open('datasets/pokemon.csv', encoding="utf-8") as f:
