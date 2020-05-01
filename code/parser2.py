@@ -1,6 +1,6 @@
 import csv
 
-def check(elem):
+def check2(elem):
 	if len(elem)!=0:
 		if ',' in elem:
 			elem = elem.replace(',','\\,')
@@ -37,7 +37,7 @@ with open('datasets/pokemon.csv') as f:
     	temp=[]
     	# print(row)
     	for col in row:
-    		(flag,col)=check(col)
+    		(flag,col)=check2(col)
     		# if(flag==1):
     		# 	# print(col)
     		temp.append(col)
