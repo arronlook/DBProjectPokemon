@@ -10,7 +10,7 @@ def check1(elem):
             # print(elem)
             return (1,elem)
     if (elem=='-'):
-        print(elem)
+        # print(elem)
         return (1,None)
     if (elem=='∞'):
         return (1,999)
@@ -22,13 +22,13 @@ def parse1():
     with open('datasets/All_moves.csv') as f:
         f_csv = csv.reader(f)
         headers = next(f_csv)
-        print(headers)
+        # print(headers)
         for row in f_csv:
             temp=[]
             for col in row:
                 (flag,col)=check1(col)
-                if(flag==1):
-                    print(col)
+                # if(flag==1):
+                #     # print(col)
                 temp.append(col)
             rows.append(temp)
     writer.writerows(rows) 
@@ -43,7 +43,7 @@ def check2(elem):
         # print(elem)
         return (1,None)
     if (elem=='30 (Meteorite)255 (Core)'):
-        print(elem)
+        # print(elem)
         return (1,30)
     return (0,elem)
 
@@ -113,7 +113,7 @@ def parse2():
                 if check_duplicate(row,rows)==False:
                     writer2.writerow(row)
                     rows.append(row)
-        print(len(rows))
+        # print(len(rows))
 if __name__ == "__main__":
     parse1()
     parse2()
