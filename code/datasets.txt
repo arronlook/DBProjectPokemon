@@ -1,4 +1,4 @@
 https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/moves.csv
 https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/pokemon_moves.csv
-
-https://www.kaggle.com/supervegate/pokemon-moveset/download
+https://raw.githubusercontent.com/arronlook/DBProjectPokemon/xu/code/AllMoves.csv
+https://raw.githubusercontent.com/arronlook/DBProjectPokemon/xu/code/pokemon.csv

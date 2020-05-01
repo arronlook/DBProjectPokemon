@@ -8,11 +8,11 @@ CREATE TABLE tbl_allmoves (
     type                    VARCHAR(8),
     category                VARCHAR(8),
     effect                  VARCHAR(255),
-    power                   SMALLINT,
-    acc                     SMALLINT,
-    pp                      SMALLINT,
-    tm                      CHAR(5),
-    prob_second_effect      SMALLINT,
+    power                   SMALLINT default NULL,
+    acc                     SMALLINT default NULL,
+    pp                      SMALLINT default NULL,
+    tm                      CHAR(5) default NULL,
+    prob_second_effect      SMALLINT default NULL,
     gen                     SMALLINT
 );
 
@@ -44,14 +44,10 @@ CREATE TABLE tbl_weakness (
 /* list of all pokemon and some default stats */
 CREATE TABLE tbl_pokemon (
     attack            SMALLINT,
-    base_egg_steps    SMALLINT,
-    base_happiness    SMALLINT,
-    base_total        SMALLINT,
-    capture_rate      SMALLINT,
     classification    VARCHAR(63),
     defense           SMALLINT,
     experience_growth INTEGER,
-    height_m          REAL,
+    height_m          REAL default 0,
     hp                SMALLINT,
     japanese_name     VARCHAR(63)  COLLATE "ja-JP-x-icu",
     name              VARCHAR(15)  UNIQUE,
@@ -62,9 +58,9 @@ CREATE TABLE tbl_pokemon (
     speed             SMALLINT,
     type1             VARCHAR(15),
     type2             VARCHAR(15),
-    weight_kg         REAL,
+    weight_kg         REAL default NULL,
     generation        SMALLINT,
-    is_legendary      BOOLEAN,
+    is_legendary      SMALLINT,
     FOREIGN KEY (type1, type2) REFERENCES tbl_weakness (type1, type2)
 );
 
