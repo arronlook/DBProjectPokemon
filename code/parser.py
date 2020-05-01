@@ -15,7 +15,7 @@ def check1(elem):
 
 writer = csv.writer(open('datasets/AllMoves_parsed.csv', 'w'))
 rows=[]
-with open('datasets/AllMoves.csv') as f:
+with open('datasets/All_Moves.csv') as f:
     f_csv = csv.reader(f)
     headers = next(f_csv)
     print(headers)
