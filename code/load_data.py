@@ -58,10 +58,10 @@ def check_duplicate(r, all_rows):
     return False
 
 def parse2():
-    writer = csv.writer(open('datasets/pokemon_parsed_temp.csv', 'w'))
+    writer = csv.writer(open('datasets/pokemon_parsed_temp.csv', 'w', encoding="utf-8"))
     rows=[]
 
-    with open('datasets/pokemon.csv') as f:
+    with open('datasets/pokemon.csv', encoding="utf-8") as f:
         f_csv = csv.reader(f)
         headers = next(f_csv)
         # print(headers)
@@ -85,9 +85,9 @@ def parse2():
     cols_to_remove2 = [0,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,38,39,40] # Column indexes to be removed (starts at 0)
     cols_to_remove2 = sorted(cols_to_remove2, reverse=True) # Reverse so we remove from the end first
 
-    with open('datasets/pokemon_parsed_temp.csv', "r") as source:
+    with open('datasets/pokemon_parsed_temp.csv', "r", encoding="utf-8") as source:
         reader = csv.reader(source)
-        with open('datasets/pokemon_parsed_main.csv', "w", newline='') as result:
+        with open('datasets/pokemon_parsed_main.csv', "w", encoding="utf-8", newline='') as result:
             writer = csv.writer(result)
             for row in reader:
                 row_count += 1
@@ -97,9 +97,9 @@ def parse2():
                 writer.writerow(row)
                 # print(len(row))
     rows=[]
-    with open('datasets/pokemon_parsed_temp.csv', "r") as source2:
+    with open('datasets/pokemon_parsed_temp.csv', "r", encoding="utf-8") as source2:
         reader2 = csv.reader(source2)
-        with open('datasets/pokemon_parsed_weakness.csv', "w", newline='') as result:
+        with open('datasets/pokemon_parsed_weakness.csv', "w", encoding="utf-8", newline='') as result:
             writer2 = csv.writer(result)
             for row in reader2:
                 row_count += 1
