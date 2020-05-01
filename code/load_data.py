@@ -90,6 +90,8 @@ def parse2():
         with open('datasets/pokemon_parsed_main.csv', "w", encoding="utf-8", newline='') as result:
             writer = csv.writer(result)
             for row in reader:
+                if len(row) == 0:
+                    continue
                 row_count += 1
                 # print('\r{0}'.format(row_count), end='') # Print rows processed
                 for col_index in cols_to_remove:
@@ -102,6 +104,8 @@ def parse2():
         with open('datasets/pokemon_parsed_weakness.csv', "w", encoding="utf-8", newline='') as result:
             writer2 = csv.writer(result)
             for row in reader2:
+                if len(row) == 0:
+                    continue
                 row_count += 1
                 # print('\r{0}'.format(row_count), end='') # Print rows processed
                 for col_index in cols_to_remove2:
