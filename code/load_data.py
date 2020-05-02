@@ -39,10 +39,10 @@ def check1(elem):
     return (0,elem)
 
 def parse1():
-    root, f_loc = findFile('datasets/Allmoves_parsed.csv')
-    writer = csv.writer(open(f_loc, 'w', newline=''))
+    root, f_loc = findFile('All_moves.csv')
+    writer = csv.writer(open(os.path.join(root, "Allmoves_parsed.csv"), 'w', newline=''))
     rows=[]
-    with open(os.path.join(root, 'All_moves.csv')) as f:
+    with open(f_loc) as f:
         f_csv = csv.reader(f)
         headers = next(f_csv)
         # print(headers)
