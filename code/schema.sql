@@ -51,7 +51,7 @@ CREATE TABLE tbl_pokemon (
     hp                SMALLINT,
     japanese_name     VARCHAR(63)  COLLATE "ja-JP-x-icu",
     name              VARCHAR(15)  UNIQUE,
-    percentage_male   REAL,
+    percentage_male   REAL         DEFAULT NULL,
     pokedex_number    SMALLINT     PRIMARY KEY,
     sp_attack         SMALLINT,
     sp_defense        SMALLINT,
@@ -60,7 +60,7 @@ CREATE TABLE tbl_pokemon (
     type2             VARCHAR(15),
     weight_kg         REAL default NULL,
     generation        SMALLINT,
-    is_legendary      SMALLINT,
+    is_legendary      BOOLEAN,
     FOREIGN KEY (type1, type2) REFERENCES tbl_weakness (type1, type2)
 );
 
