@@ -182,9 +182,23 @@ def arron_feature2():
                 continue
         else:
             # Start query execution
+            weaknesses = __getWeaknesses(pokemonTwo)
             query = """
-
-                    """
+                    SELECT name, effect, type, pp
+                    FROM tbl_allmoves NATURAL JOIN (SELECT pokedex_number, move_name
+                                                    FROM tbl_pokemon NATURAL JOIN tbl_pokemon_moves
+                                                    WHERE name ILIKE %(pokemonOne)s) AS move_map
+                    WHERE category <> 'Status' AND type ILIKE '""" + "\' OR type ILIKE \'".join(weaknesses) + "'" + \
+                    "ORDER BY name, type;"
+            
+            __printTypes(pokemonOne)
+            __printTypes(pokemonTwo)
+            
+            conn = DB_conn.getConn()
+            with conn.cursor() as cursor:
+                cursor.execute(query, (pokemonOne,))
+                moves = cursor.fetchall()
+                __printMoveTable(moves)
 
 __functions__ = {
     "GetStrongMoves": arron_feature1,
