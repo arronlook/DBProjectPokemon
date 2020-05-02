@@ -1,7 +1,7 @@
 """
 Useful suggestion hints we might want to use
 """
-from database_conn import DB_conn
+from database import DB_conn
 
 conn = DB_conn.getConn()
 

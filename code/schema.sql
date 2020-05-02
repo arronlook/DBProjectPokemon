@@ -51,7 +51,7 @@ CREATE TABLE tbl_pokemon (
     hp                SMALLINT,
     japanese_name     VARCHAR(63)  COLLATE "ja-JP-x-icu",
     name              VARCHAR(15)  UNIQUE,
-    percentage_male   REAL,
+    percentage_male   REAL         DEFAULT NULL,
     pokedex_number    SMALLINT     PRIMARY KEY,
     sp_attack         SMALLINT,
     sp_defense        SMALLINT,
@@ -60,7 +60,7 @@ CREATE TABLE tbl_pokemon (
     type2             VARCHAR(15),
     weight_kg         REAL default NULL,
     generation        SMALLINT,
-    is_legendary      SMALLINT,
+    is_legendary      BOOLEAN,
     FOREIGN KEY (type1, type2) REFERENCES tbl_weakness (type1, type2)
 );
 
@@ -87,3 +87,6 @@ tbl_pokemon
 - for pokemon name 'minor', there are 2 values for capture_rate. I suggest we separate them into 2 different pokemon, one for meteorite and one for core, since it's the same pokemon in different forms. Or just remove capture_rate
 - NOTE that classfication is misspelled in the csv file. should be classification
 */
+
+/* INDICES */
+CREATE INDEX type ON tbl_pokemon using btree (type1, type2);
