@@ -1,7 +1,7 @@
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 from namespaces import all_types, all_stats
-from database_conn import DB_conn
+from database import DB_conn
 
 def victor_feature1():
     print("Given the type(s) and stat(s), the analyzer will rank Pokemon ordered by the sum of the given stats")

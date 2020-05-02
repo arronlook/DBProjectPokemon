@@ -1,6 +1,6 @@
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
-from database_conn import DB_conn
+from database import DB_conn
 from namespaces import all_moves
 
 # change this if you don't want to see
@@ -149,11 +149,7 @@ def move_query(conn, moveName):
 
 if __name__ == "__main__":
     conn = main()
-    #freezedry(conn)
-    #flyingpress(conn)
-    #checkType(conn, "Poison")
-    #getType(conn, "")
-    #move_query(conn, "tackle")
+    """
     moveList = ["Tackle", "Flying Press", "toxic", "Nuzzle", \
                 "freEzE-dRY", "; DROP TABLE tbl_pokemon; COMMIT;", \
                 "instant kill", "thousand ARROWS", "shIFt gEaR", \
@@ -164,4 +160,5 @@ if __name__ == "__main__":
         print("Query " + str(i + 1) + ": " + moveList[i])
         move_query(conn, moveList[i])
         print("")
+    """
     conn.close()
