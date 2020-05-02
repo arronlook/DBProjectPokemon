@@ -116,7 +116,7 @@ def getType(conn, moveName):
     # if >1, too many moves returned
     # should only return 1 move
     if len(moveType) != 1:
-        print("No valid move specified received")
+        print("No valid move specified")
         return None
     else:
         if moveType[0][1] == "Status":
