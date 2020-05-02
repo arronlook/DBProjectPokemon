@@ -107,9 +107,9 @@ def getType(conn, moveName):
     # not case-sensitive search
     query = "SELECT type, category \
             FROM tbl_allMoves \
-            WHERE lower(name) LIKE %(move)s", {'move' : move}
+            WHERE lower(name) LIKE %s"
     with conn.cursor() as cursor:
-        cursor.execute(query)
+        cursor.execute(query, (move, ))
         moveType = cursor.fetchall()
     
     # if 0, no matching moves
