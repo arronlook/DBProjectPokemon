@@ -58,7 +58,7 @@ def arron_feature1():
     query = """
             SELECT name, effect, type, pp
             FROM tbl_allmoves
-            WHERE type ILIKE '""" + "\' OR type ILIKE \'".join(Weaknesses) + "'" + \
+            WHERE category <> 'Status' AND type ILIKE '""" + "\' OR type ILIKE \'".join(Weaknesses) + "'" + \
             "ORDER BY type, name;"
     
     # Get the moves that are of those type weaknesses
@@ -66,6 +66,8 @@ def arron_feature1():
     with connection.cursor() as cursor:
         cursor.execute(query)
         moves = cursor.fetchall()
+
+        padding = [4, 6, 4, 2]
 
         # Calculate padding
         if len(moves) != 0:
@@ -75,7 +77,6 @@ def arron_feature1():
                             moves[i][1].strip() if moves[i][1] is not None else "",
                             moves[i][2].strip() if moves[i][2] is not None else "",
                             str(moves[i][3]).strip() if moves[i][3] is not None else "")
-            padding = [0] * len(moves[0])
             for row in moves:
                 for i in range(len(padding)):
                     if padding[i] < len(row[i]):
@@ -117,6 +118,10 @@ def arron_feature1():
                 else:
                     line += " " * padding[2] + " | " + " " * padding[3]  + " |"
                 print(line, flush=True)
+            print(h_line, flush=True)
+        
+        if len(moves)==0:
+            print("|        No Results!        |")
             print(h_line, flush=True)
 
 
