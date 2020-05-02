@@ -134,19 +134,23 @@ def arron_feature1():
         if pokemonName.lower() == "exit" or pokemonName.lower() == "quit":
             return
         elif pokemonName.lower() not in (x.lower() for x in all_pokemon):
-            print("{} is not a legitimate pokemon name!".format(pokemonName))
+            if pokemonName != "":
+                print("{} is not a legitimate pokemon name!".format(pokemonName))
+            else:
+                print("Enter a valid Pokemon name!", flush=True)
             continue
         
         # Get type weaknesses of the valid pokemon
         Weaknesses = __getWeaknesses(pokemonName)
 
         query = """
-                SELECT name, effect, type, pp
+                SELECT DISTINCT name, effect, type, pp
                 FROM tbl_allmoves
                 WHERE category <> 'Status' AND type ILIKE '""" + "\' OR type ILIKE \'".join(Weaknesses) + "'" + \
                 "ORDER BY type, name;"
 
         __printTypes(pokemonName)
+        print("Here are a table of moves that can deal more damage than normal against {}".format(pokemonName), flush=True)
         
         # Get the moves that are of those type weaknesses
         connection = DB_conn.getConn()
@@ -169,36 +173,47 @@ def arron_feature2():
             pokemonOne = prompt("Enter name of Pokemon One>", completer=PokemonComplete)
             pokemonOne = pokemonOne.strip()
             if pokemonOne.lower() == "exit" or pokemonOne.lower() == "quit":
-                pokemonOne = None
                 return 
             elif pokemonOne.lower() not in (x.lower() for x in all_pokemon):
+                if pokemonOne != "":
+                    print("{} is not a legitimate pokemon name!".format(pokemonOne))
+                else:
+                    print("Enter a valid Pokemon name!", flush=True)
+                pokemonOne = None
                 continue
         elif pokemonTwo is None:
-            pokemonTwo = prompt("Enter name of Pokemon Two>", complete=PokemonComplete)
+            pokemonTwo = prompt("Enter name of Pokemon Two>", completer=PokemonComplete)
             if pokemonTwo.lower() == "exit" or pokemonTwo.lower() == "quit":
                 return
             elif pokemonTwo.lower() not in (x.lower() for x in all_pokemon):
+                if pokemonTwo != "":
+                    print("{} is not a legitimate pokemon name!".format(pokemonTwo))
+                else:
+                    print("Enter a valid Pokemon name!", flush=True)
                 pokemonTwo = None
                 continue
         else:
             # Start query execution
             weaknesses = __getWeaknesses(pokemonTwo)
+            print(weaknesses, flush=True)
             query = """
-                    SELECT name, effect, type, pp
-                    FROM tbl_allmoves NATURAL JOIN (SELECT pokedex_number, move_name
-                                                    FROM tbl_pokemon NATURAL JOIN tbl_pokemon_moves
-                                                    WHERE name ILIKE %(pokemonOne)s) AS move_map
+                    SELECT DISTINCT name, effect, type, pp
+                    FROM tbl_allmoves JOIN (SELECT pokedex_number, move_name
+                                            FROM tbl_pokemon JOIN tbl_pokemon_moves ON tbl_pokemon.pokedex_number=tbl_pokemon_moves.pokemon_id
+                                            WHERE name ILIKE %(pokemonOne)s) AS move_map ON tbl_allmoves.name=move_map.move_name
                     WHERE category <> 'Status' AND type ILIKE '""" + "\' OR type ILIKE \'".join(weaknesses) + "'" + \
                     "ORDER BY name, type;"
             
             __printTypes(pokemonOne)
             __printTypes(pokemonTwo)
+            print("Here are a table of moves that {} can use to deal more damage than normal against {}".format(pokemonOne, pokemonTwo), flush=True)
             
             conn = DB_conn.getConn()
             with conn.cursor() as cursor:
-                cursor.execute(query, (pokemonOne,))
+                cursor.execute(query, {"pokemonOne":pokemonOne})
                 moves = cursor.fetchall()
                 __printMoveTable(moves)
+            return
 
 __functions__ = {
     "GetStrongMoves": arron_feature1,

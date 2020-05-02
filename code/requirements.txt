@@ -1,4 +1,8 @@
-click=7.1.1
-prompt-toolkit=3.0.5
-pyfiglet=0.8.post1
-psycopg2-binary=2.8.5
+click==7.1.1
+prompt-toolkit==3.0.5
+pyfiglet==0.8.post1
+psycopg2-binary==2.8.5
+fuzzywuzzy==0.18.0
+pandas==1.0.3
+wget==3.2
+python-Levenshtein==0.12.0
