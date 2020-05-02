@@ -107,16 +107,16 @@ def getType(conn, moveName):
     # not case-sensitive search
     query = "SELECT type, category \
             FROM tbl_allMoves \
-            WHERE lower(name) LIKE '%s'" % (move)
+            WHERE lower(name) LIKE %s"
     with conn.cursor() as cursor:
-        cursor.execute(query)
+        cursor.execute(query, (move, ))
         moveType = cursor.fetchall()
     
     # if 0, no matching moves
     # if >1, too many moves returned
     # should only return 1 move
     if len(moveType) != 1:
-        print("No valid move specified received")
+        print("No valid move specified")
         return None
     else:
         if moveType[0][1] == "Status":
