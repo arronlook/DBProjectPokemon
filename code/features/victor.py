@@ -1,6 +1,6 @@
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
-from namespaces import all_types, all_stats
+from namespaces import all_types, all_stats, all_moves
 from database import DB_conn
 
 def victor_feature1():
@@ -21,7 +21,6 @@ def victor_feature1():
         if not all(poke_type in all_types for poke_type in input_types_arr):
             print("One of the type is not valid, please try again")
             continue
-
         break
         
     while True:
@@ -72,15 +71,63 @@ def victor_feature1():
         res = cursor.fetchall()
     
     print("Here are your results:")
-    print("--------------------------")
+    print("---------------------------")
     print("|   Pokemon   |   Total   |")
-    print("--------------------------")
+    print("---------------------------")
     for entry in res:
         print("|{:<12} | {:^10}|".format(entry[0], entry[1]))
     if len(res) == 0:
         print("|        No Results       |")
-    print("--------------------------")
-    
+    print("---------------------------")
+
+def victor_feature2():
+    print("Given a move, find all the pokemon that can learn it ordered by stat.")
+    while True:
+        # This while-loop sanitizes input for type
+        move_completer = WordCompleter(all_moves, ignore_case=True)
+        move = prompt('Please a move>', completer=move_completer)
+        if move == "exit":
+            return 
+
+        if move not in all_moves:
+            print("move is not valid, please try again")
+            continue
+        break
+
+    query = """
+        SELECT
+            tbl_pokemon.name,
+            SUM(tbl_pokemon.hp + 
+                tbl_pokemon.speed + 
+                tbl_pokemon.attack + 
+                tbl_pokemon.sp_attack + 
+                tbl_pokemon.defense + 
+                tbl_pokemon.sp_defense) AS total
+        FROM
+            tbl_allmoves
+        INNER JOIN tbl_pokemon_moves ON tbl_allmoves.name = tbl_pokemon_moves.move_name
+        INNER JOIN tbl_pokemon ON tbl_pokemon.pokedex_number = tbl_pokemon_moves.pokemon_id
+        WHERE tbl_allmoves.name = %s
+        GROUP BY tbl_pokemon.name
+        ORDER BY total DESC;
+    """
+    connection = DB_conn.getConn()
+    cursor = connection.cursor()
+    with cursor as cursor:
+        cursor.execute(query, (move,))
+        res = cursor.fetchall()
+
+    print("Here are your results:")
+    print("---------------------------")
+    print("|   Pokemon   |   Total   |")
+    print("---------------------------")
+    for entry in res:
+        print("|{:<12} | {:^10}|".format(entry[0], entry[1]))
+    if len(res) == 0:
+        print("|        No Results       |")
+    print("---------------------------")
+
 __functions__ = {
-    "StatAnalyzer": victor_feature1
+    "StatAnalyzer": victor_feature1,
+    "MoveStatAnalyzer": victor_feature2
 }

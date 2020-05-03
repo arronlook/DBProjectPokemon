@@ -11,6 +11,9 @@ click = "*"
 prompt-toolkit = "*"
 pyfiglet = "*"
 psycopg2-binary = "*"
+python-levenshtein = "*"
+playsound = "*"
+gi = "*"
 
 [requires]
 python_version = "3.7"
