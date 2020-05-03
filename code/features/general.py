@@ -9,8 +9,8 @@ def help():
     print("-------------HELP------------\n")
     print("StatAnalyzer: Given pokemon type(s) and stat categories, list pokemons with highest combined stats \n \
             \n \
-                first_input: <pokemon_type1> <pokemon_type2> \n \
-                second_input: <stat1> <stat2> \n")
+                first_input: <pokemon_type1> [pokemon_type2] \n \
+                second_input: <stat1> <stat2> ... <stat6> \n")
     print("SuperEffective: Given a move, list all of the Pokemon that take super effective damage from this move, along with their modifier\n \
             \n \
                 first_input: <move_name> \n")
