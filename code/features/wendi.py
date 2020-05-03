@@ -3,6 +3,43 @@ from prompt_toolkit.completion import WordCompleter
 from database import DB_conn
 from namespaces import all_pokemon, all_moves
 
+def __getPokemons(move):
+    pokemons = []
+
+    query = """
+            SELECT DISTINCT name 
+            FROM tbl_pokemon
+            WHERE pokedex_number IN
+            (
+                SELECT DISTINCT pokemon_id
+                FROM tbl_pokemon_moves
+                WHERE move_name ILIKE %s
+            )
+            """
+
+    conn = DB_conn.getConn()
+    with conn.cursor() as cursor:
+        cursor.execute(query, (move,))
+        pokemon_names = cursor.fetchall()
+
+        for i in range(len(pokemon_names)):
+            pokemons.append(pokemon_names[i][0])
+    return pokemons
+
+def __printPokemons(pokemons):
+    max = 0
+    for i in range(len(pokemons)):
+        if max < len(pokemons[i]):
+            max = len(pokemons[i])
+
+    seperator = "-" * (max + 2)
+
+    print(seperator, flush=True)
+    for i in range(len(pokemons)):
+        line = "|" + pokemons[i] + " " * (max - len(pokemons[i])) + "|"
+        print(line, flush=True)
+        print(seperator, flush=True)
+
 def wendi_feature():
     """
     Given a pokemon move, return a list of pokemons that can learn it.
@@ -21,24 +58,11 @@ def wendi_feature():
                 print("Please enter a valid move!", flush = True)
             continue
 
-        query = """
-                SELECT DISTINCT name 
-                FROM tbl_pokemon
-                WHERE pokedex_number IN
-                (
-                    SELECT DISTINCT pokemon_id
-                    FROM tbl_pokemon_moves
-                    WHERE move_name ILIKE %s
-                )
-                """
+        print("These pokemons can learn {}:".format(move))
 
-        conn = DB_conn.getConn()
-        with conn.cursor() as cursor:
-       	    cursor.execute(query, (move,))
-            pokemon_names = cursor.fetchall()
+        pokemons = __getPokemons(move)
 
-            for i in range(len(pokemon_names)):
-                print("{}".format(pokemon_names[i][0]))
+        __printPokemons(pokemons)
 
 __functions__ = {
     "GetPokemonFromMove": wendi_feature
