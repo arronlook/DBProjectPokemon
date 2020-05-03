@@ -241,7 +241,7 @@ def move_query_weak(conn, moveName):
         types = flyingpress(conn, True)
     # any other move is valid
     else:
-        types = checkTypeWeak(conn, moveType, True)
+        types = checkType(conn, moveType, True)
     
     printPokemonWeak(conn, types)
 
