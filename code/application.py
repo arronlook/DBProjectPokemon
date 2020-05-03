@@ -3,7 +3,10 @@ from prompt_toolkit.history import FileHistory
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.completion import WordCompleter
 import features
-import playsound
+
+# For the surprise
+import pygame
+import threading
 
 from load_data import findFile
 
@@ -16,7 +19,10 @@ def call_feature(feature: str):
         features.__functions__[feature]()
 
 def main():
-    playsound.playsound(findFile("../themeSong.mp3")[1], False)
+    pygame.mixer.init()
+    pygame.mixer.music.load(findFile("../themeSong.mp3")[1])
+    pygame.mixer.music.play(-1)
+
     call_feature("logo")
     while 1:
         option = prompt('Awesome pokemon DB>', completer=main_menu_completer)
