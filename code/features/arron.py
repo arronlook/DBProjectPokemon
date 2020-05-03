@@ -54,6 +54,7 @@ def __getWeaknesses(name):
         cursor.execute(ListOfTypesQuery)
         types = [x[0] for x in cursor.fetchall()]
 
+        # types is from a static query, so it is safe. Just wanted to ensure the order and flexibility
         query = "SELECT " + ", ".join(["against_" + x for x in types]) + halfQuery;
 
         cursor.execute(query, {"pokemon_name":name})
@@ -84,10 +85,11 @@ def __printMoveTable(moves, minName=15, minEffect=25):
             for i in range(len(padding)):
                 if padding[i] < len(row[i]):
                     padding[i] = len(row[i])
-    # Limit name to 10 char
-    # limit effect to 15 char
+    # Limit name to minName char
+    # limit effect to minEffect char
     padding[0] = min(minName, padding[0])
     padding[1] = min(minEffect, padding[1])
+
     from math import ceil;
     # Output results
     h_line = "-" * (sum(padding) + 13)
@@ -146,6 +148,7 @@ def arron_feature1():
         # Get type weaknesses of the valid pokemon
         Weaknesses = __getWeaknesses(pokemonName)
 
+        # Weaknesses comes from a static query, so it should be safe
         query = """
                 SELECT DISTINCT name, effect, type, pp
                 FROM tbl_allmoves
@@ -198,6 +201,7 @@ def arron_feature2():
         else:
             # Start query execution
             weaknesses = __getWeaknesses(pokemonTwo)
+            # weaknesses should be safe since it comes from a static query
             query = """
                     SELECT DISTINCT name, effect, type, pp
                     FROM tbl_allmoves JOIN (SELECT pokedex_number, move_name
