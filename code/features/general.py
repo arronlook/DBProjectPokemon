@@ -17,6 +17,9 @@ def help():
     print("NotEffective: Given a move, list all of the Pokemon that take resist this move, along with their modifier\n \
             \n \
                 first_input: <move_name> \n")
+    print("GetPokemonFromMove: Given a move, list all of the Pokemons that can learn it.\n \
+            \n \
+                first_input: <move_name> \n")
 
 def quit_program():
     print("Goodbye!")
