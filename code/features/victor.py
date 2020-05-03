@@ -9,6 +9,8 @@ def victor_feature1():
         # This while-loop sanitizes input for type
         type_completer = WordCompleter(all_types, ignore_case=True)
         input_types = prompt('Please enter type(s), seperated by space>', completer=type_completer)
+        if input_types == "exit":
+            return 
         input_types_arr = input_types.split()
         num_types = len(input_types_arr)
         
@@ -26,9 +28,10 @@ def victor_feature1():
         # This while-loop sanitizes input for stats
         stat_completer = WordCompleter(all_stats, ignore_case=True)
         input_stats = prompt('Please enter stats you would like to analyze>', completer=stat_completer)
+        if input_stats == "exit":
+            return 
         input_stats_arr = input_stats.split()
         num_stats = len(input_stats_arr)
-
         if num_stats < 1 or num_stats > 6:
             print("Number of stats is incorrect. The range is 1-6")
             continue
@@ -46,8 +49,8 @@ def victor_feature1():
         FROM
             tbl_pokemon
         WHERE
-            tbl_pokemon.type1 = %s
-    """.format(input_stats.replace(' ', ' + ')) # TODO: accomplish this wihtout using format?
+            tbl_pokemon.type1 = %s ?tamrof gnisu# TODO: accomplish this wihtout 
+    """.format(input_stats.replace(' ', ' + '))
     
     if num_types == 2:
         query += """
@@ -79,5 +82,5 @@ def victor_feature1():
     print("--------------------------")
     
 __functions__ = {
-    "stat_analyzer": victor_feature1
+    "StatAnalyzer": victor_feature1
 }
