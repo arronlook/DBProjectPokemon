@@ -3,7 +3,7 @@ import pyfiglet
 def logo():
     logo = pyfiglet.figlet_format("PokeDB")
     print(logo)
-    print("S20 Database System final project\n")
+    print("S20 Database System final project. Type \"help\" to see a list of features. \n")
 
 def help():
     print("-------------HELP------------\n")
