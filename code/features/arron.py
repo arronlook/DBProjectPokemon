@@ -2,6 +2,7 @@ from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 from database import DB_conn
 from namespaces import all_pokemon, all_moves
+import psycopg2.extras
 
 """
 Initialization
@@ -19,13 +20,15 @@ def __printTypes(name):
             WHERE name ILIKE %s
             """
     conn = DB_conn.getConn()
-    with conn.cursor() as cursor:
+    with conn.cursor(cursor_factory = psycopg2.extras.DictCursor) as cursor:
         cursor.execute(query, (name,))
-        types = cursor.fetchone()
-        if types[1] == '' or types[0] == types[1]:
-            print("{} is a {} type pokemon".format(name, types[0]), flush=True)
+        record = cursor.fetchone()
+        type1 = record["type1"]
+        type2 = record["type2"]
+        if type2 == '' or type1 == type2: 
+            print("{} is a {} type pokemon".format(name, type1), flush=True)
         else:
-            print("{} is a {} {} type pokemon".format(name, types[0], types[1]), flush=True)
+            print("{} is a {} {} type pokemon".format(name, type1, type2), flush=True)
         
 
 def __getWeaknesses(name):
@@ -47,10 +50,11 @@ def __getWeaknesses(name):
                        """
     weaknesses = []
     connection = DB_conn.getConn()
-    with connection.cursor() as cursor:
+    with connection.cursor(cursor_factory = psycopg2.extras.DictCursor) as cursor:
         cursor.execute(ListOfTypesQuery)
         types = [x[0] for x in cursor.fetchall()]
 
+        # types is from a static query, so it is safe. Just wanted to ensure the order and flexibility
         query = "SELECT " + ", ".join(["against_" + x for x in types]) + halfQuery;
 
         cursor.execute(query, {"pokemon_name":name})
@@ -73,18 +77,19 @@ def __printMoveTable(moves, minName=15, minEffect=25):
     if len(moves) != 0:
         # Clean up the result first
         for i in range(len(moves)):
-            moves[i] = (moves[i][0].strip() if moves[i][0] is not None else "",
-                        moves[i][1].strip() if moves[i][1] is not None else "",
-                        moves[i][2].strip() if moves[i][2] is not None else "",
-                        str(moves[i][3]).strip() if moves[i][3] is not None else "")
+            moves[i] = (moves[i]["name"].strip() if moves[i][0] is not None else "",
+                        moves[i]["effect"].strip() if moves[i][1] is not None else "",
+                        moves[i]["type"].strip() if moves[i][2] is not None else "",
+                        str(moves[i]["pp"]).strip() if moves[i][3] is not None else "")
         for row in moves:
             for i in range(len(padding)):
                 if padding[i] < len(row[i]):
                     padding[i] = len(row[i])
-    # Limit name to 10 char
-    # limit effect to 15 char
+    # Limit name to minName char
+    # limit effect to minEffect char
     padding[0] = min(minName, padding[0])
     padding[1] = min(minEffect, padding[1])
+
     from math import ceil;
     # Output results
     h_line = "-" * (sum(padding) + 13)
@@ -143,6 +148,7 @@ def arron_feature1():
         # Get type weaknesses of the valid pokemon
         Weaknesses = __getWeaknesses(pokemonName)
 
+        # Weaknesses comes from a static query, so it should be safe
         query = """
                 SELECT DISTINCT name, effect, type, pp
                 FROM tbl_allmoves
@@ -154,7 +160,7 @@ def arron_feature1():
         
         # Get the moves that are of those type weaknesses
         connection = DB_conn.getConn()
-        with connection.cursor() as cursor:
+        with connection.cursor(cursor_factory = psycopg2.extras.DictCursor) as cursor:
             cursor.execute(query)
             moves = cursor.fetchall()
             __printMoveTable(moves)
@@ -195,7 +201,7 @@ def arron_feature2():
         else:
             # Start query execution
             weaknesses = __getWeaknesses(pokemonTwo)
-            print(weaknesses, flush=True)
+            # weaknesses should be safe since it comes from a static query
             query = """
                     SELECT DISTINCT name, effect, type, pp
                     FROM tbl_allmoves JOIN (SELECT pokedex_number, move_name
@@ -209,7 +215,7 @@ def arron_feature2():
             print("Here are a table of moves that {} can use to deal more damage than normal against {}".format(pokemonOne, pokemonTwo), flush=True)
             
             conn = DB_conn.getConn()
-            with conn.cursor() as cursor:
+            with conn.cursor(cursor_factory = psycopg2.extras.DictCursor) as cursor:
                 cursor.execute(query, {"pokemonOne":pokemonOne})
                 moves = cursor.fetchall()
                 __printMoveTable(moves)

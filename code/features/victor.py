@@ -78,17 +78,6 @@ def victor_feature1():
         print("|        No Results       |")
     print("--------------------------")
     
-         
-
-def victor_feature2():
-    connection = DB_conn.getConn()
-    cursor = connection.cursor()
-    query = "SELECT name FROM tbl_pokemon"
-    with cursor as cursor:
-        cursor.execute(query)
-        print(cursor.fetchall())
-
 __functions__ = {
-    "stat_analyzer": victor_feature1,
-    "victor_feature2": victor_feature2
+    "stat_analyzer": victor_feature1
 }
