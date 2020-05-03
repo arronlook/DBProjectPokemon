@@ -6,4 +6,4 @@ fuzzywuzzy==0.18.0
 pandas==1.0.3
 wget==3.2
 pygame==1.9.6
-python-Levenshten==0.12.0
+python-Levenshten>=0.12.0
