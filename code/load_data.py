@@ -44,9 +44,9 @@ def check1(elem):
 	return (0,elem)
 
 def parse1():
-	writer = csv.writer(open(os.path.join(root, 'Allmoves_parsed.csv'), 'w', newline=''))
+	writer = csv.writer(open(os.path.join(root, 'Allmoves_parsed.csv'), 'w', encoding="utf-8", newline=''))
 	rows=[]
-	with open(os.path.join(root, 'All_moves.csv')) as f:
+	with open(os.path.join(root, 'All_moves.csv'), encoding="utf-8") as f:
 		f_csv = csv.reader(f)
 		headers = next(f_csv)
 		# print(headers)
@@ -196,7 +196,7 @@ if __name__ == "__main__":
 	db_conn = DB_conn.getConn()
 	db_cursor = db_conn.cursor()
 
-	db_cursor.execute(open(findFile("schema.sql")[1], "r").read())
+	db_cursor.execute(open(findFile("schema.sql")[1], "r", encoding="utf-8").read())
 
 	# db_cursor.execute("DROP TABLE IF EXISTS tbl_allMoves")
 	# db_cursor.execute("CREATE TABLE tbl_allMoves(Name VARCHAR(256) PRIMARY KEY, Type VARCHAR(255),Category VARCHAR(255), Effect VARCHAR(255), Power VARCHAR(255),Acc VARCHAR(255),PP VARCHAR(255),TM VARCHAR(255),Prob VARCHAR(255),Gen INT)" )
