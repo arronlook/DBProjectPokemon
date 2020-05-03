@@ -22,8 +22,8 @@ def wilson_feature2():
     move_query_strong(conn, option)
 
 __functions__ = {
-    "super_effective": wilson_feature1,
-    "not_effective": wilson_feature2,
+    "superEffective": wilson_feature1,
+    "notEffective": wilson_feature2,
 }
 
 def main():
