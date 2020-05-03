@@ -46,7 +46,7 @@ def wendi_feature():
     """
     print("Please enter a pokemon move to get a list of pokemon that can learn it")
     while(True):
-        moves_completer = WordCompleter(all_moves, ignore_case=True)
+        moves_completer = WordCompleter(all_moves + ["Exit", "Quit"], ignore_case=True)
         move = prompt("Enter A Move>", completer=moves_completer)
         move = move.strip()
         if move.lower() == "exit" or move.lower() == "quit":
