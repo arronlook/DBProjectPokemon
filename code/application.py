@@ -19,9 +19,13 @@ def call_feature(feature: str):
         features.__functions__[feature]()
 
 def main():
-    pygame.mixer.init()
-    pygame.mixer.music.load(findFile("../themeSong.mp3")[1])
-    pygame.mixer.music.play(-1)
+    try:
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(0.05)
+        pygame.mixer.music.load(findFile("../themeSong.mp3")[1])
+        pygame.mixer.music.play(-1)
+    except e:
+        print("Failed to play surprise theme song.", flush=True)
 
     call_feature("logo")
     while 1:
