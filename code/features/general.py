@@ -6,8 +6,11 @@ def logo():
     print("S20 Database System final project\n")
 
 def help():
-    print("This is an example help menu!")
-    print("-------------HELP------------\n\n\n\n")
+    print("-------------HELP------------\n")
+    print("StatAnalyzer: Given pokemon type(s) and stat categories, list pokemons with highest combined stats \n \
+            \n \
+                first_input: <pokemon_type1> <pokemon_type2> \n \
+                second_input: <stat1> <stat2> \n")
 
 def quit_program():
     print("Goodbye!")
