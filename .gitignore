@@ -5,6 +5,6 @@
 
 pokemonAPIScripts/
 
-__pycache__/
+**/__pycache__/
 
 code/datasets/*
