@@ -17,6 +17,7 @@ CREATE TABLE tbl_allmoves (
 );
 
 /* maps (type1, type2) to a vector of weaknesses for all types */
+/* Separated from tbl_pokemon becasue (type1, type2) functionally determines all the against_* attributes*/
 CREATE TABLE tbl_weakness (
     against_bug       REAL,
     against_dark      REAL,
@@ -70,6 +71,11 @@ CREATE TABLE tbl_pokemon_moves (
     move_name  VARCHAR(31) REFERENCES tbl_allmoves (name)
 );
 
+/* INDICES */
+CREATE INDEX type ON tbl_pokemon using btree (type1, type2);
+
+
+-- Notes
 /*
 tbl_allmoves
 ---------
@@ -87,6 +93,3 @@ tbl_pokemon
 - for pokemon name 'minor', there are 2 values for capture_rate. I suggest we separate them into 2 different pokemon, one for meteorite and one for core, since it's the same pokemon in different forms. Or just remove capture_rate
 - NOTE that classfication is misspelled in the csv file. should be classification
 */
-
-/* INDICES */
-CREATE INDEX type ON tbl_pokemon using btree (type1, type2);

@@ -54,7 +54,7 @@ def __getWeaknesses(name):
         cursor.execute(ListOfTypesQuery)
         types = [x[0] for x in cursor.fetchall()]
 
-        # types is from a static query, so it is safe. Just wanted to ensure the order and flexibility
+        # NOTE variable types is from a static query, so it is safe. Just wanted to ensure the order and flexibility
         query = "SELECT " + ", ".join(["against_" + x for x in types]) + halfQuery;
 
         cursor.execute(query, {"pokemon_name":name})
@@ -148,7 +148,7 @@ def arron_feature1():
         # Get type weaknesses of the valid pokemon
         Weaknesses = __getWeaknesses(pokemonName)
 
-        # Weaknesses comes from a static query, so it should be safe
+        # NOTE variable Weaknesses comes from a static query, so it should be safe
         query = """
                 SELECT DISTINCT name, effect, type, pp
                 FROM tbl_allmoves
@@ -201,7 +201,7 @@ def arron_feature2():
         else:
             # Start query execution
             weaknesses = __getWeaknesses(pokemonTwo)
-            # weaknesses should be safe since it comes from a static query
+            # NOTE variable weaknesses should be safe since it comes from a static query
             query = """
                     SELECT DISTINCT name, effect, type, pp
                     FROM tbl_allmoves JOIN (SELECT pokedex_number, move_name

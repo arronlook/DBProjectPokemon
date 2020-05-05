@@ -129,6 +129,9 @@ def checkType(conn, pokemonType, isWeak):
     if pokeType.find("fighting") > -1:
         pokeType = "fight"
 
+    # NOTE that variable pokeType is passed in from the result of a static query
+    #      so it is technically not a sql injection vulnerability
+
     if isWeak:
         query = \
             "SELECT type1, type2, against_%s \
@@ -158,10 +161,10 @@ def printPokemonWeak(conn, types):
     for t in types:
         query = "SELECT name, type1, type2 \
             FROM tbl_pokemon \
-            WHERE lower(type1) = '%s' \
-            AND lower(type2) = '%s'" % (str(t[0]), str(t[1]))
+            WHERE lower(type1) = %s \
+            AND lower(type2) = %s"
         with conn.cursor() as cursor:
-            cursor.execute(query)
+            cursor.execute(query, (str(t[0]), str(t[1]),))
             pokemon = cursor.fetchall()
         if len(pokemon) != 0:
             for p in pokemon:
@@ -193,10 +196,10 @@ def printPokemonStrong(conn, types):
     for t in types:
         query = "SELECT name, type1, type2 \
             FROM tbl_pokemon \
-            WHERE lower(type1) = '%s' \
-            AND lower(type2) = '%s'" % (str(t[0]), str(t[1]))
+            WHERE lower(type1) = %s \
+            AND lower(type2) = %s"
         with conn.cursor() as cursor:
-            cursor.execute(query)
+            cursor.execute(query, (str(t[0]), str(t[1]),))
             pokemon = cursor.fetchall()
         if len(pokemon) != 0:
             for p in pokemon:
