@@ -26,11 +26,12 @@ def main():
         pygame.mixer.music.set_volume(0.05)
         pygame.mixer.music.load(findFile("../themeSong.mp3")[1])
         pygame.mixer.music.play(-1)
+        call_feature("logo")
         print("Turn up the volume if you can't hear it!", flush=True)
     except e:
+        call_feature("logo")
         print("Failed to play surprise theme song.", flush=True)
 
-    call_feature("logo")
     while 1:
         option = prompt('Awesome pokemon DB>', completer=main_menu_completer)
         call_feature(option)

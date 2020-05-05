@@ -17,7 +17,9 @@ CREATE TABLE tbl_allmoves (
 );
 
 /* maps (type1, type2) to a vector of weaknesses for all types */
-/* Separated from tbl_pokemon becasue (type1, type2) functionally determines all the against_* attributes*/
+/* Separated from tbl_pokemon because
+   tbl_pokemon.pokedex_number functionally determines (type1, type2),
+   and (type1, type2) functionally determines all the against_* attributes*/
 CREATE TABLE tbl_weakness (
     against_bug       REAL,
     against_dark      REAL,
