@@ -12,7 +12,7 @@
 # How to run the application
 In /DBPokemon (the root directory of this repo) run the following (assuming your virtual environment and postgres server are up and running):
 ```bash
-python code\application.py
+python code/application.py
 ```
 
 # How to use it
