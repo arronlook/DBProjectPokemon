@@ -103,6 +103,7 @@ Enter part of a pokemon name> ch
 |
 |----history.txt -- used for our prompt toolkit (UI related)
 |
+|    (Xu Zhang / Andy)
 |----load_data.py -- Runs schema.sql and loads the data from the dataset
 |                    csvs to the database, after preprocessing into other
 |                    csv files.
