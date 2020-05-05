@@ -7,6 +7,12 @@ def logo():
 
 def help():
     print("-------------HELP------------\n")
+    print("FindPokemon: Given part of a pokemon name, return all pokemon names that match it \n \
+            \n \
+                first_input: <part of a name> \n")
+    print("FindMove: Given part of a move name, return all pokemon move names that match it \n \
+            \n \
+                first_input: <part of a name> \n")
     print("StatAnalyzer: Given pokemon type(s) and stat categories, list pokemons with highest combined stats \n \
             \n \
                 first_input: <pokemon_type1> [pokemon_type2] \n \

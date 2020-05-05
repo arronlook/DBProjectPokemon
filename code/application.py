@@ -5,6 +5,8 @@ from prompt_toolkit.completion import WordCompleter
 import features
 
 # For the surprise
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import threading
 
@@ -24,6 +26,7 @@ def main():
         pygame.mixer.music.set_volume(0.05)
         pygame.mixer.music.load(findFile("../themeSong.mp3")[1])
         pygame.mixer.music.play(-1)
+        print("Turn up the volume if you can't hear it!", flush=True)
     except e:
         print("Failed to play surprise theme song.", flush=True)
 

@@ -221,7 +221,66 @@ def arron_feature2():
                 __printMoveTable(moves)
             return
 
+def arron_feature3(move = False):
+    """
+    @param move determines which route the feature will take
+        If move == False
+            Finds the pokemon using ILIKE, in case you don't know how to spell the pokemon name.
+            Returns a list of pokemon names that match the given input
+        else:
+            Finds the move name using ILIKE, in case you don't know how to spell the move.
+            Returns a list of move names that match the given input
+    """
+    thing = "pokemon" if not move else "move"
+    print("Not sure what {0} you are thinking of? Enter part of the name that you remember to try matching it with a {0} name.".format(thing))
+    user_input = None
+    while (True):
+        user_input = prompt("Enter part of a {0} name>".format(thing))
+        user_input = user_input.strip()
+        if user_input == "":
+            user_input = None
+            print("Please enter at least 1 character!", flush=True)
+            continue
+        else:
+            if not move:
+                query = """
+                        SELECT name
+                        FROM tbl_pokemon
+                        WHERE name ILIKE %(name)s
+                        ORDER BY name ASC
+                        """
+            else:
+                query = """
+                        SELECT name
+                        FROM tbl_allmoves
+                        WHERE name ILIKE %(name)s
+                        ORDER BY name ASC
+                        """
+            conn = DB_conn.getConn()
+            with conn.cursor() as cursor:
+                cursor.execute(query, {"name":"%%{}%%".format(user_input)})
+                rows = cursor.fetchall()
+                if len(rows) == 0:
+                    print("Could not find a {0} name matching {1}".format(thing, user_input), flush=True)
+                else:
+                    msg = "Found " + str(len(rows)) + " matching name"
+                    msg += "s!" if len(rows) > 1 else "!"
+                    print(msg, flush=True)
+                    print("-" * len(msg), flush=True)
+                    for row in rows:
+                        print(row[0], flush=True)
+            break
+
+def arron_feature4():
+    """
+    Driver to get arron_feature3(True) to work
+    """
+    arron_feature3(True)
+
+
 __functions__ = {
     "GetStrongMoves": arron_feature1,
-    "GetOffensiveMoves": arron_feature2
+    "GetOffensiveMoves": arron_feature2,
+    "FindPokemon": arron_feature3,
+    "FindMove": arron_feature4
 }

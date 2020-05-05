@@ -1,4 +1,4 @@
-# How we think Johnson will run it -- probably without traversing the directory?
+# How we think Professor Johnson will run it -- probably without traversing the directory?
 0. pg_ctl start
 1. Go to /DBPokemon (the root directory of this repo) and run the following commands
 2. psql -U postgres < [db-setup.sql](/db-setup.sql)
@@ -9,3 +9,10 @@
 7. python [code/load_data.py](/code/load_data.py)
 8. python [code/application.py](/code/application.py)
 
+# How to run the application
+In /DBPokemon (the root directory of this repo) run the following (assuming your virtual environment and postgres server are up):
+```bash
+python code\appplication.py
+```
+
+# 
