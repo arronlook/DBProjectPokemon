@@ -39,8 +39,8 @@ Awesome pokemon DB> FindPokemon
 Enter part of a pokemon name> ch
 ```
 
+# Tree Explanation/Organization
 <pre>
-Tree Explanation
 /code
 |----/features
 |    |
