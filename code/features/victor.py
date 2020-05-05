@@ -48,7 +48,7 @@ def victor_feature1():
         FROM
             tbl_pokemon
         WHERE
-            tbl_pokemon.type1 = %s ?tamrof gnisu# TODO: accomplish this wihtout 
+            tbl_pokemon.type1 = %s
     """.format(input_stats.replace(' ', ' + '))
     
     if num_types == 2:

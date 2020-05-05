@@ -3,10 +3,6 @@ from prompt_toolkit.completion import WordCompleter
 from database import DB_conn
 from namespaces import all_moves
 
-# change this if you don't want to see
-# all of the printing
-debug = False
-
 def wilson_feature1():
     conn = DB_conn.getConn()
     moves_completer = WordCompleter(all_moves, ignore_case=True)

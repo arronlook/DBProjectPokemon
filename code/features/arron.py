@@ -208,7 +208,7 @@ def arron_feature2():
                                             FROM tbl_pokemon JOIN tbl_pokemon_moves ON tbl_pokemon.pokedex_number=tbl_pokemon_moves.pokemon_id
                                             WHERE name ILIKE %(pokemonOne)s) AS move_map ON tbl_allmoves.name=move_map.move_name
                     WHERE category <> 'Status' AND type ILIKE '""" + "\' OR type ILIKE \'".join(weaknesses) + "'" + \
-                    "ORDER BY name, type;"
+                    "ORDER BY type, name;"
             
             __printTypes(pokemonOne)
             __printTypes(pokemonTwo)
