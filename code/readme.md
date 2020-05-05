@@ -1,4 +1,10 @@
 # (SETUP) How we think Professor Johnson will run it -- probably without traversing the directory?
+```
+ -- 48 seconds from step 0-5
+ -- 35 seconds for step 6
+ -- 1 minute for step 7 (load_data.py)
+ -- 5 seconds for step 8
+```
 0. pg_ctl start
 1. Go to /DBPokemon (the root directory of this repo) and run the following commands
 2. psql -U postgres < [db-setup.sql](/db-setup.sql)

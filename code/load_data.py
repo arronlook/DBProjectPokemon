@@ -59,7 +59,7 @@ def parse1():
 				temp.append(col)
 			rows.append(temp)
 	writer.writerows(rows) 
-	print("Allmoves_parsed.csv created")
+	print("Allmoves_parsed.csv created", flush=True)
 
 def check2(elem):
 	if len(elem)!=0:
@@ -113,7 +113,7 @@ def parse2():
 				temp.append(col)
 			rows.append(temp)
 	writer.writerows(rows) 
-	print("pokemon_parsed_temp.csv created")
+	print("pokemon_parsed_temp.csv created", flush=True)
 
 
 	cols_to_remove = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,22,23] # Column indexes to be removed (starts at 0)
@@ -132,7 +132,7 @@ def parse2():
 					del row[col_index]
 				writer.writerow(row)
 				pokemon_ids.append(row[9])
-	print("pokemon_parsed_main.csv created")
+	print("pokemon_parsed_main.csv created", flush=True)
 
 	rows=[]
 	with open(os.path.join(root, 'pokemon_parsed_temp.csv'), "r", encoding="utf-8") as source2:
@@ -151,7 +151,7 @@ def parse2():
 				if check_duplicate(row,rows)==False:
 					writer2.writerow(row)
 					rows.append(row)
-	print("pokemon_parsed_weakness.csv created")
+	print("pokemon_parsed_weakness.csv created", flush=True)
 
 	pokemonid_moveid=[]
 	with open(os.path.join(root, 'pokemon_moves.csv'), "r", encoding='utf-8') as source3:
@@ -188,7 +188,7 @@ def parse2():
 								writer3.writerow(temp)
 								rows.append(temp)
 						continue
-	print("pokemon_moves_parsed.csv created")
+	print("pokemon_moves_parsed.csv created", flush=True)
 
 if __name__ == "__main__":
 	parse1()
@@ -197,13 +197,14 @@ if __name__ == "__main__":
 	db_cursor = db_conn.cursor()
 
 	db_cursor.execute(open(findFile("schema.sql")[1], "r", encoding="utf-8").read())
+	print("Schema created", flush=True)
 
 	# db_cursor.execute("DROP TABLE IF EXISTS tbl_allMoves")
 	# db_cursor.execute("CREATE TABLE tbl_allMoves(Name VARCHAR(256) PRIMARY KEY, Type VARCHAR(255),Category VARCHAR(255), Effect VARCHAR(255), Power VARCHAR(255),Acc VARCHAR(255),PP VARCHAR(255),TM VARCHAR(255),Prob VARCHAR(255),Gen INT)" )
 	f_contents = open(findFile('datasets/Allmoves_parsed.csv')[1], 'r')
 	db_cursor.copy_from(f_contents, "tbl_allMoves",columns=('Name', 'Type','Category', 'Effect' , 'Power','Acc', 'PP', 'TM', 'prob_second_effect','Gen'), sep=",",null="")
 	db_conn.commit()
-	print("tbl_allMoves created")
+	print("tbl_allMoves created", flush=True)
 
 	InsertQuery = """
 				  INSERT INTO tbl_weakness (against_bug, against_dark, against_dragon, against_electric, against_fairy, against_fight, against_fire, against_flying, against_ghost, against_grass, against_ground, against_ice, against_normal, against_poison, against_psychic, against_rock, against_steel, against_water, type1, type2)
@@ -217,7 +218,7 @@ if __name__ == "__main__":
 				row[-1] = "" if row[-1] is not None and row[-1] == "None" else row[-1]
 				cursor.execute(InsertQuery, tuple(row))
 		db_conn.commit()
-	print("tbl_weakness created")
+	print("tbl_weakness created", flush=True)
 
 	# db_cursor.execute("DROP TABLE IF EXISTS tbl_pokemon")
 	# db_cursor.execute("CREATE TABLE tbl_pokemon(abilities VARCHAR(256), against_bug real,against_dark real,against_dragon real,against_electric real,against_fairy real,against_fight real,against_fire real,against_flying real,against_ghost real,against_grass real,against_ground real,against_ice real,against_normal real,against_poison real,against_psychic real,against_rock real,against_steel real,against_water real,attack INT,base_egg_steps INT,base_happiness INT,base_total INT,capture_rate VARCHAR(255),classfication VARCHAR(255),defense INT,experience_growth INT,height_m VARCHAR(256),hp INT,japanese_name VARCHAR(255),name VARCHAR(255) PRIMARY KEY,percentage_male VARCHAR(256),pokedex_number INT,sp_attack INT,sp_defense INT,speed INT,type1 VARCHAR(255),type2 VARCHAR(255),weight_kg VARCHAR(256),generation INT,is_legendary INT)" )
@@ -236,12 +237,12 @@ if __name__ == "__main__":
 				row[-1] = True if row[-1] else False
 				cursor.execute(InsertQuery, tuple(row))
 		db_conn.commit()
-	print("tbl_pokemon created")
+	print("tbl_pokemon created", flush=True)
 
 	f_contents = open(findFile('datasets/pokemon_moves_parsed.csv')[1], mode='r', encoding='utf-8')
 	db_cursor.copy_from(f_contents, "tbl_pokemon_moves",columns=('pokemon_id','move_name'), sep=",",null="")
 	db_conn.commit()
-	print("tbl_pokemon_moves created")
+	print("tbl_pokemon_moves created", flush=True)
 
 	db_cursor.close()
 	db_conn.close()
