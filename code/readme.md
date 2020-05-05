@@ -1,4 +1,5 @@
 # (SETUP) How we think Professor Johnson will run it -- probably without traversing the directory?
+**NOTE**: Postgres might crash somewhere during the load_data.py process, so please start Postgres again and rerun load_data.py
 ```
  -- 48 seconds from step 0-5
  -- 35 seconds for step 6
