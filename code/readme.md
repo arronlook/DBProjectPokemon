@@ -1,3 +1,5 @@
+The following is assuming you are in the root directory that contains the code/ directory
+
 # (SETUP) How we think Professor Johnson will run it -- probably without traversing the directory?
 **NOTE**: Postgres might crash somewhere during the load_data.py process, so please start Postgres again and rerun load_data.py
 ```
@@ -7,14 +9,14 @@
  -- 5 seconds for step 8
 ```
 0. pg_ctl start
-1. Go to /DBPokemon (the root directory of this repo) and run the following commands
-2. psql -U postgres < [db-setup.sql](/db-setup.sql)
-3. python [retrieve_data.py](/retrieve_data.py)
+1. Go to /DBPokemon (aka the root directory of this repo) and run the following commands
+2. psql -U postgres < [db-setup.sql](../db-setup.sql)
+3. python [retrieve_data.py](../retrieve_data.py)
 4. python -m venv **directory**
 5. **directory/Scripts/activate**
-6. python -m pip install -r [code/requirements.txt](/code/requirements.txt)
-7. python [code/load_data.py](/code/load_data.py)
-8. python [code/application.py](/code/application.py)
+6. python -m pip install -r [code/requirements.txt](./requirements.txt)
+7. python [code/load_data.py](./load_data.py)
+8. python [code/application.py](./application.py)
 
 # How to run the application
 In /DBPokemon (the root directory of this repo) run the following (assuming your virtual environment and postgres server are up and running):
@@ -48,7 +50,7 @@ Enter part of a pokemon name> ch
 |    |----general.py -- handles the "help" command and printing out the
 |    |                  logo at application startup
 |    |
-|    |----themeSong.mp3 -- the pokemon themesong to be played in the background
+|    |----themeSong.mp3 -- the pokemon theme song to be played in the background
 |    |
 |    |----arron.py -- Contains queries for features:
 |    |                - GetStrongMoves -- SELECT FROM WHERE ORDER BY
